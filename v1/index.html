@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTL Graph Visualizer - Cytoscape.js</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/cytoscape@3.27.0/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+    <script src="https://unpkg.com/n3@1.16.3/browser/n3.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔷 TTL Graph Visualizer</h1>
+            <p>Visualize RDF/Turtle files using Cytoscape.js</p>
+        </header>
+
+        <div class="controls">
+            <div class="file-upload-section">
+                <label for="ttl-file" class="file-label">
+                    <span class="file-icon">📁</span>
+                    <span>Choose TTL File</span>
+                </label>
+                <input type="file" id="ttl-file" accept=".ttl,.turtle,.rdf" />
+                <span id="file-name" class="file-name">No file selected</span>
+            </div>
+            
+            <div class="button-group">
+                <button id="load-btn" class="btn btn-primary" disabled>Load Graph</button>
+                <button id="reset-btn" class="btn btn-secondary">Reset</button>
+                <button id="layout-btn" class="btn btn-secondary">Change Layout</button>
+            </div>
+
+            <div class="info-section">
+                <div class="info-item">
+                    <span class="info-label">Nodes:</span>
+                    <span id="node-count" class="info-value">0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Edges:</span>
+                    <span id="edge-count" class="info-value">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <div id="cy"></div>
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Loading graph...</p>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-node subject"></div>
+                    <span>Subject (Resource)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-node predicate"></div>
+                    <span>Predicate (Property)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-node object"></div>
+                    <span>Object (Value)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-edge"></div>
+                    <span>Relationship</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+

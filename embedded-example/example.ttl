@@ -1,0 +1,43 @@
+@prefix ex: <http://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Example knowledge graph about people and organizations
+
+ex:John rdf:type foaf:Person .
+ex:John foaf:name "John Doe" .
+ex:John foaf:age "35"^^<http://www.w3.org/2001/XMLSchema#integer> .
+ex:John ex:worksAt ex:AcmeCorp .
+ex:John ex:hasSkill ex:Python .
+ex:John ex:hasSkill ex:JavaScript .
+
+ex:Jane rdf:type foaf:Person .
+ex:Jane foaf:name "Jane Smith" .
+ex:Jane foaf:age "28"^^<http://www.w3.org/2001/XMLSchema#integer> .
+ex:Jane ex:worksAt ex:TechStart .
+ex:Jane ex:hasSkill ex:Java .
+ex:Jane ex:hasSkill ex:Python .
+
+ex:AcmeCorp rdf:type ex:Company .
+ex:AcmeCorp rdfs:label "Acme Corporation" .
+ex:AcmeCorp ex:industry "Technology" .
+ex:AcmeCorp ex:location "San Francisco" .
+
+ex:TechStart rdf:type ex:Company .
+ex:TechStart rdfs:label "TechStart Inc." .
+ex:TechStart ex:industry "Software" .
+ex:TechStart ex:location "New York" .
+
+ex:Python rdf:type ex:Skill .
+ex:Python rdfs:label "Python Programming" .
+
+ex:JavaScript rdf:type ex:Skill .
+ex:JavaScript rdfs:label "JavaScript Programming" .
+
+ex:Java rdf:type ex:Skill .
+ex:Java rdfs:label "Java Programming" .
+
+ex:John ex:knows ex:Jane .
+ex:AcmeCorp ex:competesWith ex:TechStart .
+

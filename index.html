@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTL Graph Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/cytoscape@3.27.0/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+    <script src="https://unpkg.com/n3@1.16.3/browser/n3.min.js"></script>
+</head>
+<body>
+    <div class="app-wrap">
+        <header class="app-header" id="app-header">
+            <div class="header-title-row">
+                <h1>TTL Graph Visualizer</h1>
+                <button type="button" id="header-toggle" class="header-toggle-btn" title="Expand/collapse controls" aria-expanded="true" aria-controls="header-controls-panel">&#9660;</button>
+            </div>
+            <div class="header-controls-panel" id="header-controls-panel">
+            <div class="header-controls">
+                <fieldset class="source-options-fieldset" id="source-options">
+                    <legend class="source-options-legend">Source option</legend>
+                    <label class="source-type-option"><input type="radio" name="source-type" id="source-ttl" value="ttl" checked /> TTL file</label>
+                    <label class="source-type-option"><input type="radio" name="source-type" id="source-sparql" value="sparql" /> SPARQL endpoint</label>
+                    <div class="source-ttl-panel">
+                        <label for="ttl-file" class="file-label">Choose TTL File</label>
+                        <input type="file" id="ttl-file" accept=".ttl,.turtle,.rdf" />
+                        <span id="file-name" class="file-name">No file selected</span>
+                        <button id="load-btn" class="btn btn-primary" disabled title="Re-load the selected file">Load Graph</button>
+                    </div>
+                    <div class="source-sparql-panel">
+                        <input type="url" id="sparql-endpoint" class="sparql-endpoint-input" placeholder="Endpoint URL (e.g. https://dbpedia.org/sparql)" title="SPARQL endpoint URL" />
+                        <textarea id="sparql-query" class="sparql-query-input" rows="2" placeholder="SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 500" title="SPARQL SELECT query (first 3 variables = subject, predicate, object)"></textarea>
+                        <button type="button" id="sparql-fetch" class="btn btn-primary" title="Fetch graph from endpoint">Fetch</button>
+                    </div>
+                </fieldset>
+                <fieldset class="layout-radios" id="layout-radios">
+                    <legend class="layout-legend">Change Layout</legend>
+                    <label class="layout-option"><input type="radio" name="layout" value="dagre" checked /> Dagre</label>
+                    <label class="layout-option"><input type="radio" name="layout" value="breadthfirst" /> Breadthfirst</label>
+                    <label class="layout-option"><input type="radio" name="layout" value="grid" /> Grid</label>
+                    <label class="layout-option"><input type="radio" name="layout" value="circle" /> Circle</label>
+                    <label class="layout-option"><input type="radio" name="layout" value="cose" /> Cose</label>
+                </fieldset>
+                <fieldset class="view-options-fieldset" id="view-options">
+                    <legend class="view-options-legend">View options</legend>
+                    <label class="view-mode-option"><input type="radio" name="view-mode" id="view-all" value="all" checked /> View all</label>
+                    <label class="view-mode-option view-by-hops-option">
+                        <input type="radio" name="view-mode" id="view-hops" value="hops" />
+                        <span class="hops-label">View by hops</span>
+                        <input type="number" id="max-hops" class="hops-input" min="0" value="1" placeholder="0" title="Max hops from selected entity/class" />
+                        <button type="button" id="apply-hops" class="btn btn-hops" title="Show subgraph within this many hops">Apply</button>
+                    </label>
+                </fieldset>
+            </div>
+            </div>
+        </header>
+
+        <div class="app-instruction-bar">
+            <p class="app-instruction-text">Select entities, classes, data types, or relations on the left; view details and graph on the right.</p>
+        </div>
+
+        <div class="main-content">
+            <aside class="left-pane" id="left-pane">
+                <p class="left-pane-empty">Load a TTL file to see entities, classes, data types, and relations.</p>
+            </aside>
+            <section class="right-pane-wrap">
+                <div class="right-pane-detail-wrap" id="right-pane-detail"></div>
+                <div class="graph-wrap">
+                    <div class="graph-top-bar">
+                        <span class="graph-counts"><span id="node-count">0</span> nodes, <span id="edge-count">0</span> edges</span>
+                        <div class="graph-zoom-controls" aria-label="Graph zoom">
+                            <button type="button" id="zoom-out" class="zoom-btn" title="Zoom out">−</button>
+                            <button type="button" id="zoom-in" class="zoom-btn" title="Zoom in">+</button>
+                        </div>
+                    </div>
+                    <div id="graph-container" class="graph-container"></div>
+                    <div id="loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Loading graph...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/sparql.js"></script>
+    <script src="js/subgraph.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/leftPane.js"></script>
+    <script src="js/rightPane.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

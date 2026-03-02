@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "../agents/hr"
+		},
+		{
+			"path": "../agents/cytoscape"
+		}
+	],
+	"settings": {}
+}
